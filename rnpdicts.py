@@ -1,3 +1,5 @@
+import pandas as pd
+
 # List of RNA targets
 targets = ('XIST', 
            '7SL',
@@ -59,7 +61,7 @@ useven = ('Lsm10',
 
 # 7SK, from Brogie and Price, Nucleic Acids Research 2017 (doi: 10.1093/nar/gkx262)
 # Also from Barrandon et al, MCM 2007 (https://doi.org/10.1128/MCB.00975-07)
-sevensk = ('Hexim',
+sevensk = ('Hexim1',
           'Mepce',
           'Larp7',
           'Hnrnpq',
@@ -119,7 +121,7 @@ uone = ('Snrpc',
        'Snrpg')
 
 # Gene ontology splicing terms
-gosplice = pd.read_csv('GO_term_summary_20220227_151146.csv',usecols=['Symbol'])
+gosplice = pd.read_csv('GO_term_splicing.csv',usecols=['Symbol'])
 gosplice = list(gosplice['Symbol'])
 
 ms_canon_rnps = (xist, 

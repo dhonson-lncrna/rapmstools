@@ -1,7 +1,6 @@
 import numpy as np
 import pandas as pd
 from scipy.stats import f_oneway, tukey_hsd
-import numba
 
 def crapome_filter(df, 
                    spec='mouse'):
@@ -152,6 +151,29 @@ def rap_tukey(anova,
     tukdf.to_excel(fname)
         
     return tukdf
+
+def reps_avg(df,
+            reps):
+    '''Calculates average values for replicates in RAP-MS DataFrame'''
+    # New columns
+    df = df.set_index('Gene names')
+    cols = ['Gene names'] + list(np.unique([i.split('_')[0] for i in df.columns]))
+    rows = [list(df.index)] + [np.zeros(len(df)) for i in cols[1:]]
+    
+    # Empty dataframe
+    avg = pd.DataFrame(dict(zip(cols,rows)))
+    
+    # Groups
+    groups = []
+    for i in cols[1:]:
+        groups.append([i + '_' + str(j) for j in np.arange(reps)+1])
+    grdict = dict(zip(cols[1:],groups))
+    
+    # Averages
+    for i in grdict.keys():
+        avg.loc[:,i] = list(np.mean(df.filter(grdict[i]),axis=1))
+        
+    return avg
         
         
     
