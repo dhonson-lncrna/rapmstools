@@ -101,7 +101,7 @@ def rap_tukey(anova,
     Returns the log10-transformed p-value for RNAs that passed the threshold or 0 for those 
     that did not'''
     # Log transform threshold for later calculation
-    thresh = np.log10(thresh)
+    thresh = -1*np.log10(thresh)
     
     # Identify the individual RNAs and create a dictionary for indexing
     anova = anova.drop('OneWay_Pval', axis=1)
@@ -126,16 +126,16 @@ def rap_tukey(anova,
     # Perform Tukey test for each factor
     for i in anova.index:
         subvals = [list(anova.loc[i,rnadict[k]]) for k in rnas]
-        tukey = np.log10(tukey_hsd(*subvals).pvalue)
+        tukey = -1*np.log10(tukey_hsd(*subvals).pvalue)
         
         # Remove self correlation (p = 1)
-        tukey = np.sort(tukey)[:,:-1]
+        tukey = np.sort(tukey)[:,1:]
         
         # Calculate median p-values
         tmed = np.median(tukey, axis=1)
         
         # Determine which factors pass threshold in all pairwise tests
-        tbool = tukey <= thresh
+        tbool = tukey >= thresh
         tall = tbool.all(axis=1)
         
         # Update the dataframe

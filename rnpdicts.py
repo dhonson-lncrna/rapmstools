@@ -77,9 +77,11 @@ utwo = ('Snrpa1',
        'Snrpb2',
        'Sf3a3',
        'Sf3b3',
+       'Sf3b2',
        'Sf3b1',
        'Prp5',
        'Sf3b6',
+       'Sf3b5',
        'Tat-sf1',
        'Sf3b4',
        'Sf3a2',
@@ -105,6 +107,8 @@ usix = ('Lsm8', # Lsm8 is nearly identical to Lsm1, so may be some ambiguity bas
        'Pat1',
        'Prpf8',
        'Prpf3',
+       'Prpf6',
+       'Prpf4',
        'Rbm22')
 
 # U1, Kondo et al, eLife 2015 (https://doi.org/10.7554/eLife.04986)
