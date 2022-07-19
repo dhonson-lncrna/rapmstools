@@ -79,14 +79,17 @@ def rap_anova(data,
         
     rnadict = dict(zip(rnas,samples))
     
-    # Add a column to store p-values
-    data['OneWay_Pval'] = np.zeros(len(data))
-    
     # Perform ANOVA for each factor
     for i in data.index:
         subvals = [list(data.loc[i, rnadict[k]]) for k in rnas]
         data.loc[i,'OneWay_Pval'] = f_oneway(*subvals)[1]
-        
+    
+    # Perform Benjamini and Hochberg False Discovery Rate Correction
+    data.sort_values('OneWay_Pval', inplace=True)
+    
+    for i, v in enumerate(data.index):
+        data.loc[v, 'OneWay_Pval'] = (len(data) / (i+1)) * data.loc[v, 'OneWay_Pval']
+    
     if thresh == False:
         return data
     
